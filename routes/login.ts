@@ -30,7 +30,7 @@ module.exports = function login () {
   return (req: Request, res: Response, next: NextFunction) => {
     verifyPreLoginChallenges(req) // vuln-code-snippet hide-line
     models.sequelize.query(`SELECT * FROM Users WHERE email = $1 AND password = '${security.hash(req.body.password || '')}' AND deletedAt IS NULL`,
-      { bind: [ req.body.email ], model: models.User, plain: true })// vuln-code-snippet vuln-line loginAdminChallenge loginBenderChallenge loginJimChallenge
+      { bind: [req.body.email], model: models.User, plain: true })// vuln-code-snippet vuln-line loginAdminChallenge loginBenderChallenge loginJimChallenge
       .then((authenticatedUser) => { // vuln-code-snippet neutral-line loginAdminChallenge loginBenderChallenge loginJimChallenge
         const user = utils.queryResultToJson(authenticatedUser)
         if (user.data?.id && user.data.totpSecret !== '') {
